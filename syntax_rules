@@ -1,0 +1,111 @@
+program
+    = { form } ;
+
+form
+    = expression
+    | definition
+    | function-definition
+    | import-statement ;
+
+import-statement
+    = "(" "import" string-literal ")" ;
+
+definition
+    = "(" "define" identifier type expression ")"
+    | "(" "=" identifier type expression ")" ;
+
+function-definition
+    = "(" "function" identifier
+      "(" { parameter } ")"
+      { expression }
+      type
+      ")" ;
+
+lambda-expression
+    = "(" "lambda"
+      "(" { parameter } ")"
+      { expression }
+      type
+      ")" ;
+
+parameter
+    = identifier "::" type ;
+
+expression
+    = literal
+    | identifier
+    | function-call
+    | lambda-call
+    | if-expression
+    | list
+    | tuple ;
+
+function-call
+    = "(" expression { expression } ")" ;
+
+lambda-call
+    = "(" lambda-expression { expression } ")" ;
+
+if-expression
+    = "(" "if" expression expression expression ")" ;
+
+list
+    = "[" [ expression { "," expression } ] "]" ;
+
+tuple
+    = "{" expression "," expression "}" ;
+
+literal
+    = integer-literal
+    | float-literal
+    | bool-literal
+    | char-literal
+    | string-literal
+    | NULL ;
+
+type
+    = base-type
+    | compound-type
+    | function-type
+    | union-type ;
+
+union-type
+    = type "|" type ;
+
+base-type
+    = "int"
+    | "uint"
+    | "char"
+    | "float"
+    | "bool"
+    | "string"
+    | "procedure"
+    | "type"
+    | "any"
+    | "number"
+    | "integer" ;
+
+compound-type
+    = "[" type "]"
+    | "{" type "," type "}" ;
+
+function-type
+    = "<" "(" [ type { type } ] ")" "=>" type ">" ;
+
+identifier
+    = IDENTIFIER ;
+
+integer-literal
+    = INTEGER_LITERAL ;
+
+float-literal
+    = FLOAT_LITERAL ;
+
+char-literal
+    = CHAR_LITERAL ;
+
+string-literal
+    = STRING_LITERAL ;
+
+bool-literal
+    = BOOL_LITERAL ;

@@ -1,0 +1,121 @@
+/*
+You can modify the following rules by replacing the given unique symbol by another unique symbol.
+A symbol can be .+
+Each of the following rules must correspond to a different symbol.
+*/
+COMMENT_DELIMITER           ::= --
+STRING_DELIMITER            ::= "
+CHAR_DELIMITER              ::= '
+TRANSFORMATION              ::= =>
+TYPE_SEPARATOR              ::= \|
+
+EXPRESSION_LEFT_DELIMITER   ::= \(
+EXPRESSION_RIGHT_DELIMITER  ::= \)
+ARRAY_LEFT_DELIMITER        ::= \[
+ARRAY_RIGHT_DELIMITER       ::= \]
+TUPLE_LEFT_DELIMITER        ::= \{
+TUPLE_RIGHT_DELIMITER       ::= \}
+LAMBDA_TYPE_LEFT_DELIMITER  ::= <-
+LAMBDA_TYPE_RIGHT_DELIMITER ::= ->
+
+INNER_DELIMITER             ::= ,
+PARAMETER_SEPARATOR         ::= ::
+
+TRUE                        ::= \#t
+FALSE                       ::= \#f
+
+NULL_LITERAL                ::= NULL
+
+DEFINE                      ::= define
+FUNCTION                    ::= function
+LAMBDA                      ::= lambda
+IF                          ::= if
+IMPORT                      ::= import
+
+DEFINE_OP                   ::= =
+ADD                         ::= \+
+SUB                         ::= -
+MUL                         ::= \*
+DIV                         ::= /
+MOD                         ::= %
+POW                         ::= \*\*
+SQRT                        ::= v-
+FACTORIAL                   ::= !!
+ADD_ASSIGN                  ::= \+=
+SUB_ASSIGN                  ::= -=
+MUL_ASSIGN                  ::= \*=
+DIV_ASSIGN                  ::= /=
+MOD_ASSIGN                  ::= %=
+POW_ASSIGN                  ::= \*\*=
+EQ                          ::= ==
+NEQ                         ::= !=
+LW                          ::= <
+GT                          ::= >
+LWEQ                        ::= <=
+GTEQ                        ::= >=
+NOT                         ::= !
+AND                         ::= &&
+OR                          ::= \|\|
+NAND                        ::= !&
+NOR                         ::= !\|
+XOR                         ::= :\|
+XNOR                        ::= !:
+BAND                        ::= &
+BOR                         ::= \|
+BNOT                        ::= ~
+BXOR                        ::= ^
+LSHIFT                      ::= <<
+RSHIFT                      ::= >>
+
+T_INT                       ::= int
+T_UINT                      ::= uint
+T_CHAR                      ::= char
+T_FLOAT                     ::= float
+T_BOOL                      ::= bool
+T_PROCEDURE                 ::= procedure
+T_TYPE                      ::= type
+T_STRING                    ::= string
+T_INTEGER                   ::= integer
+T_NUMBER                    ::= number
+T_ANY                       ::= any
+
+
+
+/* You cannot modify the following rules */
+BOOL_LITERAL                ::= TRUE|FALSE
+
+INT_DECIMAL                 ::= [+-]?[0-9]+
+INT_BINARY                  ::= Ob[01]+
+INT_OCTAL                   ::= Oo[0-7]+
+INT_HEX                     ::= Ox[0-9a-fA-F]+
+INT_BASE_N                  ::= O\{[2-9]|[1-2][0-9]|3[0-6]\}[0-9a-zA-Z]+
+INTEGER_LITERAL             ::= INT_DECIMAL|INT_BINARY|INT_OCTAL|INT_HEX|INT_BASE_N
+
+FLOAT_LITERAL               ::= [+-]?([0-9]*\.[0-9]+|[0-9]+\.[0-9]*)
+
+CHAR_LITERAL                ::= CHAR_DELIMITER([^\\CHAR_DELIMITER])CHAR_DELIMITER
+STRING_LITERAL              ::= STRING_DELIMITER([^STRING_DELIMITER]*)STRING_DELIMITER
+
+LITERAL                     ::= NULL_LITERAL|BOOL_LITERAL|INTEGER_LITERAL|FLOAT_LITERAL|CHAR_LITERAL|STRING_LITERAL
+
+COMMENT                     ::= COMMENT_DELIMITER(.*)?(COMMENT_DELIMITER|$)
+
+WHITESPACE                  ::= [ \t\r\n]+
+
+IDENTIFIER                  ::= [A-Za-z_][A-Za-z0-9_]*
+
+KEYWORD                     ::= DEFINE|FUNCTION|LAMBDA|IF|IMPORT
+
+OPERATOR                    ::= ADD_ASSIGN|SUB_ASSIGN|MUL_ASSIGN|DIV_ASSIGN|MOD_ASSIGN|POW_ASSIGN|ADD|SUB|MUL|DIV|MOD|POW|EQ|NEQ|LW|GT|LWEQ|GTEQ|AND|OR|NAND|NOR|XOR|XNOR|NOT|BAND|BOR|BNOT|BXOR|LSHIFT|RSHIFT|DEFINE_OP|SQRT|FACTORIAL
+
+BASIC_TYPE                  ::= T_INT|T_UINT|T_CHAR|T_FLOAT|T_BOOL|T_PROCEDURE|T_TYPE|T_STRING|T_INTEGER|T_NUMBER|T_ANY
+TYPE_COMBINATION            ::= BASIC_TYPE(TYPE_SEPARATOR BASIC_TYPE)+
+TYPE                        ::= BASIC_TYPE|TYPE_COMBINATION
+
+>TOKEN             ::= WHITESPACE
+                   | COMMENT
+                   | KEYWORD
+                   | LITERAL
+                   | IDENTIFIER
+                   | OPERATOR
+                   | TYPE
