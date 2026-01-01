@@ -1,0 +1,31 @@
+##
+## .gitignore for GladosGenerator
+##
+
+## main
+GladosGenerator
+
+## Binary
+*.out
+*.gcno
+*.gcda
+test
+
+## Unused files
+*.slo
+*.lo
+*.o
+*.a
+*.obj
+*.log
+*.gch
+*.old
+vgcore*
+.editorconfig
+.vscode
+
+## Output
+Output/*
+
+## .gitignore
+!.gitignore
