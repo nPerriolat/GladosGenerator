@@ -12,17 +12,17 @@ wordifyShift :: (Word -> Int -> Word) -> (Word -> Word -> Word)
 wordifyShift f = (\a b -> f a (int b))
 
 binaryBuiltins :: Symbols
-binaryBuiltins = [ BackendBuiltins ("&", 2, pdpBinaryOp "&" (.&.))
+binaryBuiltins = [ BackendBuiltins ("BAND_OP", 2, pdpBinaryOp "BAND_OP" (.&.))
             ,   BackendBuiltins ("band", 2, pdpBinaryOp "band" (.&.))
-            ,   BackendBuiltins ("|", 2, pdpBinaryOp "|" (.|.))
+            ,   BackendBuiltins ("BOR_OP", 2, pdpBinaryOp "BOR_OP" (.|.))
             ,   BackendBuiltins ("bor", 2, pdpBinaryOp "bor" (.|.))
-            ,   BackendBuiltins ("~", 1, pdpBNot)
+            ,   BackendBuiltins ("BNOT_OP", 1, pdpBNot)
             ,   BackendBuiltins ("bnot", 1, pdpBNot)
-            ,   BackendBuiltins ("^", 2, pdpBinaryOp "^" xor)
+            ,   BackendBuiltins ("BXOR_OP", 2, pdpBinaryOp "BXOR_OP" xor)
             ,   BackendBuiltins ("bxor", 2, pdpBinaryOp "bxor" xor)
-            ,   BackendBuiltins (">>", 2, pdpBinaryOp ">>" (wordifyShift (.>>.)))
+            ,   BackendBuiltins ("RSHIFT_OP", 2, pdpBinaryOp "RSHIFT_OP" (wordifyShift (.>>.)))
             ,   BackendBuiltins ("rshift", 2, pdpBinaryOp ">>" (wordifyShift (.>>.)))
-            ,   BackendBuiltins ("<<", 2, pdpBinaryOp "<<" (wordifyShift (.<<.)))
+            ,   BackendBuiltins ("LSHIFT_OP", 2, pdpBinaryOp "LSHIFT_OP" (wordifyShift (.<<.)))
             ,   BackendBuiltins ("lshift", 2, pdpBinaryOp "<<" (wordifyShift (.<<.)))]
 
 
