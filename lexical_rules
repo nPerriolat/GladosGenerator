@@ -4,21 +4,15 @@ A symbol can be .+
 Each of the following rules must correspond to a different symbol.
 */
 COMMENT_DELIMITER           ::= --
-STRING_DELIMITER            ::= "
-CHAR_DELIMITER              ::= '
-TRANSFORMATION              ::= =>
 TYPE_SEPARATOR              ::= \|
 
-EXPRESSION_LEFT_DELIMITER   ::= \(
-EXPRESSION_RIGHT_DELIMITER  ::= \)
+EXPRESSION_LEFT_DELIMITER   ::= $
+EXPRESSION_RIGHT_DELIMITER  ::= £
 ARRAY_LEFT_DELIMITER        ::= \[
 ARRAY_RIGHT_DELIMITER       ::= \]
 TUPLE_LEFT_DELIMITER        ::= \{
 TUPLE_RIGHT_DELIMITER       ::= \}
-LAMBDA_TYPE_LEFT_DELIMITER  ::= <-
-LAMBDA_TYPE_RIGHT_DELIMITER ::= ->
 
-INNER_DELIMITER             ::= ,
 PARAMETER_SEPARATOR         ::= ::
 
 TRUE                        ::= \#t
@@ -82,6 +76,13 @@ T_ANY                       ::= any
 
 
 /* You cannot modify the following rules */
+STRING_DELIMITER            ::= "
+CHAR_DELIMITER              ::= '
+INNER_DELIMITER             ::= ,
+LAMBDA_TYPE_LEFT_DELIMITER  ::= <-
+LAMBDA_TYPE_RIGHT_DELIMITER ::= ->
+TRANSFORMATION              ::= =>
+
 BOOL_LITERAL                ::= TRUE|FALSE
 
 INT_DECIMAL                 ::= [+-]?[0-9]+

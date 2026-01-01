@@ -77,38 +77,32 @@ namespace GG {
     void Data::generate() {
         const std::filesystem::path glados{ "./Glados/" };
         const std::filesystem::path output{ "./Output/" };
-        const std::string outputLexicon{ "./Output/src/Lexicon.hs" };
 
         std::filesystem::copy(glados, output,
             std::filesystem::copy_options::recursive |
             std::filesystem::copy_options::overwrite_existing);
         
-        std::ifstream in(outputLexicon);
-        std::string content((std::istreambuf_iterator<char>(in)), std::istreambuf_iterator<char>());
-        in.close();
 
-        std::vector<std::pair<std::string, std::string>> entries(this->lexicon.begin(), this->lexicon.end());
-        std::sort(entries.begin(), entries.end(), [](auto& a, auto& b) { return a.first.size() > b.first.size(); });
-
-        for (const auto& [key, value] : entries) {
-            size_t pos = 0;
-            
-            std::string safeValue;
-            for (char c : value) {
-                if (c == '"') {
-                    safeValue += "\\\"";
-                } else {
-                    safeValue += c;
+        for (const auto& entry : std::filesystem::directory_iterator("./Output/src/")) {
+            if (entry.is_regular_file()) {
+                std::string file = entry.path().string();
+                std::ifstream in(file);
+                std::string content((std::istreambuf_iterator<char>(in)), std::istreambuf_iterator<char>());
+                in.close();
+                std::vector<std::pair<std::string, std::string>> entries(this->lexicon.begin(), this->lexicon.end());
+                std::sort(entries.begin(), entries.end(), [](auto& a, auto& b) { return a.first.size() > b.first.size(); });
+                for (const auto& [key, value] : entries) {
+                    size_t pos = 0;
+                    while ((pos = content.find(key, pos)) != std::string::npos) {
+                        content.replace(pos, key.length(), value);
+                        pos += value.length();
+                    }
                 }
-            }
-
-            while ((pos = content.find(key, pos)) != std::string::npos) {
-                content.replace(pos, key.length(), safeValue);
-                pos += safeValue.length();
+                std::ofstream out(file);
+                out << content;
+                out.close();
             }
         }
-        std::ofstream out(outputLexicon);
-        out << content;
-        out.close();
+        
     }
 }
