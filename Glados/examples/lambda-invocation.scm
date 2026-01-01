@@ -1,0 +1,1 @@
+((lambda (a::number b::number) (+ a b) number) 1 2)

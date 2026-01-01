@@ -1,0 +1,1 @@
+STDOUT: '<-(number number) => number->'

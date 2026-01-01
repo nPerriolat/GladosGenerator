@@ -1,0 +1,3 @@
+RETCODE: NonZero
+STDERR: 'GLaDOS: ConverterError: Not handled case. [Converter.hs]'
+COMPILE: NO

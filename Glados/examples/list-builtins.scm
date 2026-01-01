@@ -1,0 +1,1 @@
+(pushback (pushfront (concat [1, 2] [7, 8]) 9) 10)

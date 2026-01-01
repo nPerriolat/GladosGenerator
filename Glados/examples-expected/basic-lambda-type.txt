@@ -1,0 +1,1 @@
+STDOUT: '<-(int int) => int->'

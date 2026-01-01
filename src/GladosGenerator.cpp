@@ -62,7 +62,6 @@ namespace GG {
                             i--;
                         }
                     }
-                    //std::cout << "key=" << key << "\t" << "value=" << value << std::endl;
                     this->lexicon[key] = value;
                 } else {
                     pos = line.find("/* You cannot modify the following rules */");

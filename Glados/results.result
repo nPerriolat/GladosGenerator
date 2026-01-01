@@ -1,0 +1,47 @@
+ghci>       sexprToAST [SList [SSymbol "x", SNumber 1, SNumber 3]]
+result>     Just [ASTCall (FunctionCall "x") [ASTNumber 1,ASTNumber 3]]
+
+ghci>       sexprToAST [SList [SSymbol "lambda",SSymbol "x",SList [SSymbol "+",SSymbol "x",SNumber 1]]]
+result>     Just [ASTLambda [ASTSymbol "x"] (ASTCall (FunctionCall "+") [ASTSymbol "x",ASTNumber 1])]
+
+ghci>       sexprToAST [SList [SList [SSymbol "lambda",SList [],SNumber 5]]]
+result>     Just [ASTCall (LambdaCall [] (ASTNumber 5)) []]
+
+ghci>       sexprToAST [SList [SSymbol "lambda",SList [],SNumber 5]]
+result>     Just [ASTLambda [] (ASTNumber 5)]
+
+ghci>       sexprToAST [SList [SSymbol "+",SNumber 4,SNumber 1]]
+result>     Just [ASTCall (FunctionCall "+") [ASTNumber 4,ASTNumber 1]]
+
+ghci>       sexprToAST [SList [SSymbol "+",SList [SSymbol "*",SList [SSymbol "-",SNumber 10,SNumber 2],SList [SSymbol "mod",SNumber 19,SNumber 3]],SList [SSymbol "div",SNumber 10,SNumber 2]]]
+result>     Just [ASTCall (FunctionCall "+") [ASTCall (FunctionCall "*") [ASTCall (FunctionCall "-") [ASTNumber 10,ASTNumber 2],ASTCall (FunctionCall "mod") [ASTNumber 19,ASTNumber 3]],ASTCall (FunctionCall "div") [ASTNumber 10,ASTNumber 2]]]
+
+ghci>       sexprToAST [SList [SSymbol "if",SSymbol "#f",SNumber 4,SSymbol "#f"]]
+result>     Just [ASTCall (FunctionCall "if") [ASTBoolean True,ASTNumber 4,ASTBoolean True]]
+
+Voir ce cas avec NILS () (cas non v)
+ghci>       sexprToAST [SList [SSymbol "define",SList [SSymbol "<",SSymbol "a",SSymbol "b"],SSymbol "#t"]]
+result>     Just [ASTDefine "" (ASTBoolean True)]
+
+ghci>       sexprToAST [SList [SSymbol "define",SSymbol "foo",SNumber 20],SList [SSymbol "if",SList [SSymbol "<",SSymbol "foo",SNumber 10],SList [SSymbol "*",SSymbol "foo",SNumber 3],SList [SSymbol "div",SSymbol "foo",SNumber 2]]]
+result>     Just [ASTDefine "foo" (ASTNumber 20),ASTCall (FunctionCall "if") [ASTCall (FunctionCall "<") [ASTSymbol "foo",ASTNumber 10],ASTCall (FunctionCall "*") [ASTSymbol "foo",ASTNumber 3],ASTCall (FunctionCall "div") [ASTSymbol "foo",ASTNumber 2]]]
+
+ghci>       sexprToAST [SList [SSymbol "div",SNumber 15,SNumber 3]]
+result>     Just [ASTCall (FunctionCall "div") [ASTNumber 15,ASTNumber 3]]
+
+ghci>       sexprToAST [SList [SSymbol "define",SList [SSymbol "add",SSymbol "a",SSymbol "b"],SList [SSymbol "+",SSymbol "a",SSymbol "b"]],SList [SSymbol "add",SNumber 3,SNumber 4]]
+result>     Just [ASTDefine "" (ASTCall (FunctionCall "+") [ASTSymbol "a",ASTSymbol "b"]),ASTCall (FunctionCall "add") [ASTNumber 3,ASTNumber 4]]
+
+
+ghci>       sexprToAST [SList [SSymbol "lambda",SList [SSymbol "a",SSymbol "b"],SList [SSymbol "+",SSymbol "a",SSymbol "b"]]]
+result>     Just [ASTLambda [ASTCall (FunctionCall "a") [ASTSymbol "b"]] (ASTCall (FunctionCall "+") [ASTSymbol "a",ASTSymbol "b"])]
+
+ghci>       sexprToAST [SList [SList [SSymbol "lambda",SList [SSymbol "a",SSymbol "b"],SList [SSymbol "+",SSymbol "a",SSymbol "b"]],SNumber 1,SNumber 2]]
+Just        [ASTCall (LambdaCall [ASTCall (FunctionCall "a") [ASTSymbol "b"]] (ASTCall (FunctionCall "+") [ASTSymbol "a",ASTSymbol "b"])) [ASTNumber 1,ASTNumber 2]]
+
+ghci>       sexprToAST [SList [SSymbol "define",SSymbol "add",SList [SSymbol "lambda",SList [SSymbol "a",SSymbol "b"],SList [SSymbol "+",SSymbol "a",SSymbol "b"]]],SList [SSymbol "add",SNumber 3,SNumber 4]]
+result>     Just [ASTDefine "add" (ASTLambda [ASTCall (FunctionCall "a") [ASTSymbol "b"]] (ASTCall (FunctionCall "+") [ASTSymbol "a",ASTSymbol "b"])),ASTCall (FunctionCall "add") [ASTNumber 3,ASTNumber 4]]
+
+ghci>       sexprToAST [SList [SSymbol "lambda",SList [SSymbol "a",SSymbol "b"],SList [SSymbol "+",SSymbol "a",SSymbol "b"]]]
+result>     Just [ASTLambda [ASTCall (FunctionCall "a") [ASTSymbol "b"]] (ASTCall (FunctionCall "+") [ASTSymbol "a",ASTSymbol "b"])]
+
